@@ -23,6 +23,7 @@ public class ProductController {
             Principal principal,
             @Valid @RequestBody ProductDto productDto
     ) {
+
         return ResponseEntity.ok(productService.addProduct(principal.getName(), productDto));
     }
 

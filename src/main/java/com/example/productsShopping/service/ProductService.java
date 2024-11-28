@@ -24,12 +24,19 @@ public class ProductService {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        Product product = new Product();
-        product.setName(productDto.getName());
-        product.setModel(productDto.getModel());
-        product.setUser(user);
+        Product newProduct = new Product();
+        newProduct.setName(productDto.getName());
+        newProduct.setModel(productDto.getModel());
+        newProduct.setUser(user);
 
-        Product savedProduct = productRepository.save(product);
+//      add product to database
+        Product savedProduct = productRepository.save(newProduct);
+
+//      add product to user
+        user.getProducts().add(savedProduct);
+        userRepository.save(user);
+
+
 
         return mapToDto(savedProduct);
     }
