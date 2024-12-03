@@ -1,6 +1,5 @@
 package com.example.productsShopping.service;
 
-
 import com.example.productsShopping.dto.LoginRequest;
 import com.example.productsShopping.dto.RegisterRequest;
 import com.example.productsShopping.entity.User;
@@ -25,6 +24,7 @@ public class AuthService {
 
     @Transactional
     public String registerUser(RegisterRequest request) {
+        // Проверяем, существует ли уже имя пользователя или email
         if (userRepository.existsByUsername(request.getUsername())) {
             throw new RuntimeException("Username is already taken!");
         }
@@ -33,6 +33,7 @@ public class AuthService {
             throw new RuntimeException("Email is already in use!");
         }
 
+        // Создаем нового пользователя
         User user = new User();
         user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
@@ -55,4 +56,3 @@ public class AuthService {
         return jwtTokenProvider.generateToken(authentication);
     }
 }
-

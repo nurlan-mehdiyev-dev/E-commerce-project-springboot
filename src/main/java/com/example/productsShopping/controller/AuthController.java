@@ -1,6 +1,5 @@
 package com.example.productsShopping.controller;
 
-
 import com.example.productsShopping.dto.LoginRequest;
 import com.example.productsShopping.dto.RegisterRequest;
 import com.example.productsShopping.service.AuthService;
@@ -17,12 +16,25 @@ public class AuthController {
 
     @PostMapping("/auth/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterRequest registerRequest) {
-        return ResponseEntity.ok(authService.registerUser(registerRequest));
+        try {
+            // Попытка зарегистрировать пользователя
+            String responseMessage = authService.registerUser(registerRequest);
+            return ResponseEntity.ok(responseMessage);
+        } catch (RuntimeException ex) {
+            // Возвращаем ошибку с сообщением из исключения
+            return ResponseEntity.status(400).body(ex.getMessage());
+        }
     }
 
     @PostMapping("/auth/login")
     public ResponseEntity<?> loginUser(@Valid @RequestBody LoginRequest loginRequest) {
-        return ResponseEntity.ok(authService.loginUser(loginRequest));
+        try {
+            // Попытка авторизовать пользователя
+            String token = authService.loginUser(loginRequest);
+            return ResponseEntity.ok(token);
+        } catch (RuntimeException ex) {
+            // Возвращаем ошибку с сообщением из исключения
+            return ResponseEntity.status(400).body(ex.getMessage());
+        }
     }
 }
-
