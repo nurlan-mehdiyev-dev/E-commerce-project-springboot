@@ -37,4 +37,18 @@ public class AuthController {
             return ResponseEntity.status(400).body(ex.getMessage());
         }
     }
+
+    @PostMapping("/auth/logout")
+    public ResponseEntity<?> logoutUser() {
+        try {
+            // Вызываем метод логаута в сервисе (если есть логика на сервере)
+            authService.logoutUser();
+
+            // Отправляем клиенту успешный ответ
+            return ResponseEntity.ok("Logout successful!");
+        } catch (RuntimeException ex) {
+            // Обрабатываем исключение
+            return ResponseEntity.status(400).body(ex.getMessage());
+        }
+    }
 }

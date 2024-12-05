@@ -14,7 +14,7 @@ public class WebConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**") // Разрешить доступ ко всем маршрутам
-                        .allowedOrigins("http://127.0.0.1:5500") // Укажите источник, который может отправлять запросы
+                        .allowedOrigins("http://127.0.0.1:5500", "http://localhost:5500")// Укажите источник, который может отправлять запросы
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Разрешённые методы
                         .allowedHeaders("*") // Разрешённые заголовки
                         .allowCredentials(true); // Если нужно передавать куки

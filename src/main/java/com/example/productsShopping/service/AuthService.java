@@ -55,4 +55,13 @@ public class AuthService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return jwtTokenProvider.generateToken(authentication);
     }
+
+    public void logoutUser() {
+        // Если требуется хранить аннулированные токены, добавьте текущий токен в список/базу
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null) {
+            SecurityContextHolder.clearContext(); // Очистка контекста безопасности
+        }
+    }
+
 }
