@@ -3,7 +3,6 @@ package com.example.productsShopping.controller;
 
 import com.example.productsShopping.dto.ProductDto;
 import com.example.productsShopping.service.ProductService;
-
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +16,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductController {
     private final ProductService productService;
+
+    @GetMapping("/all")
+    public ResponseEntity<List<ProductDto>> getAllProducts() {
+        return ResponseEntity.ok(productService.getAllProducts());
+    }
 
     @PostMapping
     public ResponseEntity<ProductDto> addProduct(

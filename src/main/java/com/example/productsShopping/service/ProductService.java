@@ -1,6 +1,5 @@
 package com.example.productsShopping.service;
 
-
 import com.example.productsShopping.dto.ProductDto;
 import com.example.productsShopping.entity.Product;
 import com.example.productsShopping.entity.User;
@@ -19,26 +18,10 @@ public class ProductService {
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
 
-    @Transactional
-    public ProductDto addProduct(String username, ProductDto productDto) {
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        Product newProduct = new Product();
-        newProduct.setName(productDto.getName());
-        newProduct.setModel(productDto.getModel());
-        newProduct.setUser(user);
-
-//      add product to database
-        Product savedProduct = productRepository.save(newProduct);
-
-//      add product to user
-        user.getProducts().add(savedProduct);
-        userRepository.save(user);
-
-
-
-        return mapToDto(savedProduct);
+    public List<ProductDto> getAllProducts() {
+        return productRepository.findAll().stream()
+                .map(this::mapToDto)
+                .collect(Collectors.toList());
     }
 
     public List<ProductDto> getUserProducts(String username) {
@@ -51,6 +34,32 @@ public class ProductService {
     }
 
     @Transactional
+    public ProductDto addProduct(String username, ProductDto productDto) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Product newProduct = new Product();
+        newProduct.setBrand(productDto.getBrand());
+        newProduct.setModel(productDto.getModel());
+        newProduct.setCategory(productDto.getCategory());
+        newProduct.setDescription(productDto.getDescription());
+        newProduct.setPrice(productDto.getPrice());
+        newProduct.setRate(productDto.getRate());
+        newProduct.setImageUrl(productDto.getImageUrl());
+        newProduct.setUser(user);
+
+        // Save product to the database
+        Product savedProduct = productRepository.save(newProduct);
+
+        // Add product to user
+        user.getProducts().add(savedProduct);
+        userRepository.save(user);
+
+        return mapToDto(savedProduct);
+    }
+
+
+    @Transactional
     public void deleteProduct(String username, Long productId) {
         Product product = productRepository.findByIdAndUser_Username(productId, username)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
@@ -58,28 +67,39 @@ public class ProductService {
         productRepository.delete(product);
     }
 
-    private ProductDto mapToDto(Product product) {
-        ProductDto dto = new ProductDto();
-        dto.setId(product.getId());
-        dto.setName(product.getName());
-        dto.setModel(product.getModel());
-        return dto;
-    }
-
     @Transactional
     public ProductDto updateProduct(String username, Long productId, ProductDto productDto) {
-        // Найдем компьютер, принадлежащий конкретному пользователю
+        // Find the product belonging to the specific user
         Product product = productRepository.findByIdAndUser_Username(productId, username)
                 .orElseThrow(() -> new RuntimeException("Product not found or access denied"));
 
-        // Обновим поля компьютера
-        product.setName(productDto.getName());
+        // Update product fields
+        product.setBrand(productDto.getBrand());
         product.setModel(productDto.getModel());
+        product.setCategory(productDto.getCategory());
+        product.setDescription(productDto.getDescription());
+        product.setPrice(productDto.getPrice());
+        product.setRate(productDto.getRate());
+        product.setImageUrl(productDto.getImageUrl());
 
-        // Сохраним обновленный компьютер
+        // Save the updated product
         Product updatedProduct = productRepository.save(product);
 
-        // Преобразуем в DTO и вернем
+        // Convert to DTO and return
         return mapToDto(updatedProduct);
+    }
+
+
+    private ProductDto mapToDto(Product product) {
+        ProductDto dto = new ProductDto();
+        dto.setId(product.getId());
+        dto.setBrand(product.getBrand());
+        dto.setModel(product.getModel());
+        dto.setCategory(product.getCategory());
+        dto.setDescription(product.getDescription());
+        dto.setPrice(product.getPrice());
+        dto.setRate(product.getRate());
+        dto.setImageUrl(product.getImageUrl());
+        return dto;
     }
 }

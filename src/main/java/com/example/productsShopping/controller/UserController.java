@@ -1,6 +1,7 @@
 package com.example.productsShopping.controller;
 
 
+import com.example.productsShopping.dto.UserProfileDTO;
 import com.example.productsShopping.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +17,9 @@ import java.security.Principal;
 public class UserController {
     private final UserService userService;
 
+
     @GetMapping("/profile")
-    public ResponseEntity<?> getUserProfile(Principal principal) {
+    public ResponseEntity<UserProfileDTO> getUserProfile(Principal principal) {
         return ResponseEntity.ok(userService.getUserProfile(principal.getName()));
     }
 }

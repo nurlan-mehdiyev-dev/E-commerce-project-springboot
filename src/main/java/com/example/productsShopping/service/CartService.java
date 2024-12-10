@@ -75,11 +75,18 @@ public class CartService {
 
     private CartItemDto mapToDto(CartItem cartItem) {
         CartItemDto dto = new CartItemDto();
+
         dto.setId(cartItem.getId());
         dto.setProductId(cartItem.getProduct().getId());
-        dto.setProductName(cartItem.getProduct().getName());
-        dto.setProductModel(cartItem.getProduct().getModel());
+        dto.setBrand(cartItem.getProduct().getBrand());
+        dto.setModel(cartItem.getProduct().getModel());
+        dto.setCategory(cartItem.getProduct().getCategory());
+        dto.setDescription(cartItem.getProduct().getDescription());
+        dto.setPrice(cartItem.getProduct().getPrice());
+        dto.setRate(cartItem.getProduct().getRate());
+        dto.setImageUrl(cartItem.getProduct().getImageUrl());
         dto.setQuantity(cartItem.getQuantity());
+
         return dto;
     }
 }

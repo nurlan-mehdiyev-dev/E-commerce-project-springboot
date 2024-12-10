@@ -1,6 +1,7 @@
 package com.example.productsShopping.service;
 
 
+import com.example.productsShopping.dto.UserProfileDTO;
 import com.example.productsShopping.entity.User;
 import com.example.productsShopping.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,12 +26,11 @@ public class UserService {
 //            }
 //        };
 //    }
-    public User getUserProfile(String username) {
+    public UserProfileDTO getUserProfile(String username) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        return user;
-
+        return new UserProfileDTO(user.getUsername(), user.getEmail());
     }
 }
 
