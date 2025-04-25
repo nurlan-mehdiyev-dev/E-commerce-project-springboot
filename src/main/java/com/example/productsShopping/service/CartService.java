@@ -89,4 +89,12 @@ public class CartService {
 
         return dto;
     }
+
+    @Transactional
+    public void clearCart(String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        cartRepository.deleteByUser(user);
+    }
 }

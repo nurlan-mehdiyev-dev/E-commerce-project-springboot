@@ -49,7 +49,7 @@ public class ProductController {
     public ResponseEntity<ProductDto> updateProduct(
             Principal principal,
             @PathVariable Long productId,
-            @Valid @RequestBody ProductDto productDto
+                @Valid @RequestBody ProductDto productDto
     ) {
         return ResponseEntity.ok(productService.updateProduct(principal.getName(), productId, productDto));
     }

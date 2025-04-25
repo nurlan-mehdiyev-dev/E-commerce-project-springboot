@@ -82,5 +82,19 @@ public class CartController {
                 : ResponseEntity.noContent().build();
     }
 
+    @DeleteMapping("/clear")
+    public ResponseEntity<Void> clearCart(Principal principal) {
+        if (principal == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        try {
+            cartService.clearCart(principal.getName());
+            return ResponseEntity.noContent().build(); // Возвращаем 204 No Content для успешного удаления
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); // Обработка возможных исключений
+        }
+    }
+
 
 }
