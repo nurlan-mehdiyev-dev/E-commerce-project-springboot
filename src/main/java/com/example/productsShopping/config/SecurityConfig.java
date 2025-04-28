@@ -56,7 +56,8 @@ public class SecurityConfig {
                 "http://127.0.0.1:5500",
                 "http://localhost:8080",
                 "http://127.0.0.1:8080",
-                "http://localhost:5173"
+                "http://localhost:5173",
+                "https://e-commerce-project-reactjs-ashen.vercel.app"
         ));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-Requested-With", "*"));
