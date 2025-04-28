@@ -1,7 +1,6 @@
 package com.example.productsShopping.controller;
 
 
-import com.example.productsShopping.dto.UserProfileDTO;
 import com.example.productsShopping.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
